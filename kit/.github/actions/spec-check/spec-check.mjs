@@ -592,8 +592,9 @@ export function run(inp) {
     else problems.push(`"${name}" is named in the PR body, but openspec/changes/${name}/ does not exist`);
   }
 
+  // The goals file only matters when there is a change whose Goal to check.
   let goals = null;
-  if (config.goals.file) {
+  if (config.goals.file && linked.size) {
     let g = gitShow(inp.repo, inp.base, config.goals.file);
     if (g === null && inp.bootstrap && existsSync(path.join(inp.repo, config.goals.file))) {
       g = readCapped(path.join(inp.repo, config.goals.file)).text ?? null;
@@ -621,10 +622,10 @@ export function run(inp) {
   if (big && byName.length && config.requireLinkedChangeTouched && !touched.length) {
     problems.push(`linked by name only to existing change ${byName.join(', ')}; this repository requires a large pull request to touch its change (requireLinkedChangeTouched)`);
   }
-  let status;
-  if (problems.length) status = 'flag';
-  else if (!big || changes.length || (hasLabel && exemptReason)) status = 'pass';
-  else { status = 'flag'; problems.push('bigger than small with no change in it: add openspec/changes/<name>/ to this pull request'); }
+  if (big && !changes.length && !(hasLabel && exemptReason)) {
+    problems.push('bigger than small with no change in it: add openspec/changes/<name>/ to this pull request');
+  }
+  const status = problems.length ? 'flag' : 'pass';
 
   const advisories = [];
   if (reviewFiles.length) advisories.push(`agent instructions changed; code owner should review: ${list(reviewFiles)}`);

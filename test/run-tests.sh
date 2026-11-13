@@ -276,6 +276,17 @@ run_case 36-money-calc-no-flags            flag 0 main "" "" "must name at least
 pr pr-money-calc;       printf 'export const total = (items) => items.reduce((s, i) => s + i.amount, 0);\n' > src/billing/invoice.js; spec_change add-report-export "G-102 - Billing totals stay correct" "ledger total for the month equals CSV total"; commit "money with calc"
 run_case 37-money-with-separate-calc-passes pass 0 main "" ""
 
+# ---------- goals file missing on the base branch ----------
+git checkout -q main && git checkout -q -b main-no-goals && git rm -q openspec/goals.md && git commit -qm "no goals file"
+git checkout -q pr-large-nospec
+run_case 45a-no-goals-large-no-spec-lists-no-change flag 0 main-no-goals "" "" "bigger than small with no change in it"
+grep -q "goals file" "$results/45a-no-goals-large-no-spec-lists-no-change.txt" && record 45a2-no-goals-problem-without-a-change MISMATCH "goals problem listed" || record 45a2-no-goals-problem-without-a-change OK "goals file not required"
+git checkout -q pr-small
+run_case 45b-no-goals-small-pr-passes      pass 0 main-no-goals "" ""
+git checkout -q pr-large-spec
+run_case 45c-no-goals-with-change-flags    flag 0 main-no-goals "" "" "goals file openspec/goals.md is not on the base branch"
+git checkout -q main
+
 # ---------- ordinary pull requests: all must pass ----------
 pr pr-p01;  lines src/app/feature.js 40; commit "40-line feature"
 run_case P01-forty-line-feature-passes     pass 0 main "" ""
