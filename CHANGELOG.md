@@ -11,3 +11,5 @@ First version, tested against OpenSpec 2.0.0.
 - OpenSpec installed from a committed lockfile with scripts off; telemetry off.
 - `install.sh`, which never overwrites existing files.
 - Test suite with unit checks and simulated pull requests, and a self-test workflow.
+
+- small doc note
