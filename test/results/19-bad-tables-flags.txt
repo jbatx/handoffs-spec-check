@@ -1,0 +1,20 @@
+# case: 19-bad-tables-flags
+# base: main   head: pr-bad-tables   labels: []
+# PR body: <empty>
+
+Spec check: FLAGGED (warn mode, not blocking)
+
+Size: 452 non-test lines in 2 files
+Bigger than small because: 452 non-test lines changed (threshold 400); touches paths that always need a spec: src/billing/invoice.js
+Linked change: add-report-export (in this pull request): has problems
+
+To fix:
+- add-report-export: Files at Risk needs at least one row with a path and a readiness of red, yellow or green
+- add-report-export: Files at Risk row "src/app/report.js" has readiness "amber" (use red, yellow or green)
+- add-report-export: verification.md has no row for scenario "Export an empty month"
+
+For the reviewer (does not affect the result):
+- add-report-export: sensitive paths changed but not under Files at Risk: src/billing/invoice.js
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 0

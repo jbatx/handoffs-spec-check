@@ -1,0 +1,15 @@
+# case: 07-goal-not-in-goals-file-flags
+# base: main   head: pr-unknown-goal   labels: []
+# PR body: <empty>
+
+Spec check: FLAGGED (warn mode, not blocking)
+
+Size: 450 non-test lines in 1 files
+Bigger than small because: 450 non-test lines changed (threshold 400)
+Linked change: add-report-export (in this pull request): has problems
+
+To fix:
+- add-report-export: Goal ID G-999 is not in openspec/goals.md
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 0

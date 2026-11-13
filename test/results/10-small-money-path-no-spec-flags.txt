@@ -1,0 +1,14 @@
+# case: 10-small-money-path-no-spec-flags
+# base: main   head: pr-billing-small   labels: []
+# PR body: <empty>
+
+Spec check: FLAGGED (warn mode, not blocking)
+
+Size: 2 non-test lines in 1 files
+Bigger than small because: touches paths that always need a spec: src/billing/invoice.js
+
+To fix:
+- bigger than small with no linked change: add openspec/changes/<name>/ to this pull request, or a "Change: <name>" line to its description
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 0

@@ -1,0 +1,14 @@
+# case: 04-large-no-spec-blocks
+# base: main-block   head: pr-large-nospec   labels: []
+# PR body: <empty>
+
+Spec check: FLAGGED (blocking)
+
+Size: 450 non-test lines in 1 files
+Bigger than small because: 450 non-test lines changed (threshold 400)
+
+To fix:
+- bigger than small with no linked change: add openspec/changes/<name>/ to this pull request, or a "Change: <name>" line to its description
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 1

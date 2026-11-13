@@ -1,0 +1,14 @@
+# case: 09-exempt-without-reason-flags
+# base: main-block   head: pr-exempt   labels: [spec-exempt]
+# PR body: Regenerated the client.
+
+Spec check: FLAGGED (blocking)
+
+Size: 600 non-test lines in 1 files
+Bigger than small because: 600 non-test lines changed (threshold 400)
+
+To fix:
+- label "spec-exempt" needs a reason: add a line "Spec-exempt: <one-line reason>" to the PR body
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 1

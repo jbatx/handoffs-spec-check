@@ -1,0 +1,9 @@
+# Merge these lines into .github/CODEOWNERS and replace the handle with the CTO's.
+# With branch protection set to "Require review from Code Owners", nothing in
+# these files changes (no new rule, threshold or blocking switch) until the CTO approves.
+/.github/spec-check.jsonc          @CTO-HANDLE
+/.github/actions/spec-check/       @CTO-HANDLE
+/.github/workflows/spec-check.yml  @CTO-HANDLE
+/openspec/config.yaml              @CTO-HANDLE
+/openspec/schemas/                 @CTO-HANDLE
+/openspec/goals.md                 @CTO-HANDLE

@@ -1,0 +1,12 @@
+# case: 08-exempt-with-reason-passes
+# base: main-block   head: pr-exempt   labels: [spec-exempt]
+# PR body: Spec-exempt: regenerated API client from the vendor schema, no behaviour change
+
+Spec check: PASSED
+
+Size: 600 non-test lines in 1 files
+Bigger than small because: 600 non-test lines changed (threshold 400)
+Exempt (spec-exempt label): regenerated API client from the vendor schema, no behaviour change
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 0

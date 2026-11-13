@@ -1,0 +1,49 @@
+// Spec check settings. The check reads this file from the pull request's
+// BASE branch, so a pull request cannot loosen its own check. Changes here
+// take effect after they merge, through review by the CODEOWNERS (the CTO).
+// Lines starting with // are comments.
+{
+  // "warn" flags a pull request and never fails it.
+  // "block" fails the check, but only once blockingApproval is filled in.
+  "mode": "warn",
+  "blockingApproval": { "approvedBy": "", "approvedOn": "" },
+
+  // A pull request is "bigger than small" when ANY of these is true.
+  "thresholds": {
+    // Lines added + deleted, not counting tests or ignorePaths.
+    "nonTestLinesChanged": 400,
+    // Distinct services (see "services") touched in one pull request.
+    "servicesTouched": 2
+  },
+  // Any non-test change under these paths always needs a spec.
+  "alwaysNeedsSpec": [
+    "**/billing/**", "**/payments/**", "**/ledger/**",
+    "**/auth/**", "**/login/**", "**/permissions/**", "**/rbac/**",
+    "**/migrations/**", "**/*.sql"
+  ],
+  // When a pull request touches these, the Verification table must name at
+  // least one separate calculation for the money or balance it changes.
+  "moneyPaths": ["**/billing/**", "**/payments/**", "**/ledger/**"],
+  // Each pattern names service roots; "services/*" makes services/api one service.
+  "services": ["services/*", "apps/*"],
+  "testPaths": [
+    "**/test/**", "**/tests/**", "**/__tests__/**", "**/spec/**",
+    "**/*.test.*", "**/*.spec.*", "**/*_test.go", "**/test_*.py", "**/*_test.py"
+  ],
+  // Not counted toward size and never trigger a spec.
+  "ignorePaths": [
+    "openspec/**", "**/package-lock.json", "**/pnpm-lock.yaml", "**/yarn.lock",
+    "**/*.snap", "**/dist/**", "**/vendor/**", "**/*.md"
+  ],
+
+  "goals": {
+    // Set "file" to "" to skip the goal-ID lookup (the Goal line is still required).
+    "file": "openspec/goals.md",
+    "idPattern": "[A-Z][A-Z0-9]*-[0-9]+"
+  },
+  // Optional regular expression the Ticket value must match, e.g. "^[A-Z]+-[0-9]+$".
+  "ticketPattern": "",
+
+  // Exemption: the label plus a line in the PR body: "Spec-exempt: <reason>".
+  "exemptLabel": "spec-exempt"
+}

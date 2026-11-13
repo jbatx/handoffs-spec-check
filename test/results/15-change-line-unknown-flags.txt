@@ -1,0 +1,15 @@
+# case: 15-change-line-unknown-flags
+# base: main   head: pr-linked-by-body   labels: []
+# PR body: Change: does-not-exist
+
+Spec check: FLAGGED (warn mode, not blocking)
+
+Size: 450 non-test lines in 1 files
+Bigger than small because: 450 non-test lines changed (threshold 400)
+Linked change: does-not-exist (named in the PR body): has problems
+
+To fix:
+- does-not-exist: openspec/changes/does-not-exist/ does not exist at the head commit
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 0

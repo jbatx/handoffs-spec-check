@@ -1,0 +1,8 @@
+== openspec schema validate handoffs
+Note: Schema commands are experimental and may change.
+✓ Schema 'handoffs' is valid
+== openspec schema which handoffs
+Note: Schema commands are experimental and may change.
+Schema: handoffs
+Source: project
+Path: <kit>/test-repo/openspec/schemas/handoffs

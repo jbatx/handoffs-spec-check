@@ -1,0 +1,15 @@
+# case: 22-large-missing-verification-md-flags
+# base: main-block   head: pr-no-verification   labels: []
+# PR body: <empty>
+
+Spec check: FLAGGED (blocking)
+
+Size: 450 non-test lines in 1 files
+Bigger than small because: 450 non-test lines changed (threshold 400)
+Linked change: add-report-export (in this pull request): has problems
+
+To fix:
+- add-report-export: verification.md is missing (2 scenario(s) in specs/ need a test named)
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 1

@@ -1,0 +1,15 @@
+# case: 18-strict-validate-failure-flags
+# base: main   head: pr-bad-scenario   labels: []
+# PR body: <empty>
+
+Spec check: FLAGGED (warn mode, not blocking)
+
+Size: 450 non-test lines in 1 files
+Bigger than small because: 450 non-test lines changed (threshold 400)
+Linked change: add-report-export (in this pull request): has problems
+
+To fix:
+- add-report-export: openspec validate add-report-export --strict failed: WARNING: ADDED "Revenue report exports as CSV": scenario "Export an empty month" is missing a THEN step. A scenario needs a trigger and an outcome, e.g. "- **WHEN** an invoice is voided" and "- **THEN** a credit note is issued".
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 0

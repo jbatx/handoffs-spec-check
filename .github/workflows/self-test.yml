@@ -1,0 +1,45 @@
+name: Self-test
+
+# Tests this kit. "kit-tests" rebuilds a throwaway repo and runs every
+# simulated pull request. "action-smoke" runs the kit's composite action on
+# this repository's own pull requests, in warn mode, so it never fails them.
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  kit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      OPENSPEC_TELEMETRY: '0'
+      DO_NOT_TRACK: '1'
+      OPENSPEC_NO_UPDATE_CHECK: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts
+      - run: bash test/run-tests.sh
+      - if: always()
+        run: cat test/results/SUMMARY.txt >> "$GITHUB_STEP_SUMMARY"
+
+  action-smoke:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./kit/.github/actions/spec-check
+        with:
+          config: kit/.github/spec-check.jsonc

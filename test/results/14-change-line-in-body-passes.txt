@@ -1,0 +1,13 @@
+# case: 14-change-line-in-body-passes
+# base: main   head: pr-linked-by-body   labels: []
+# PR body: Implements the report export.
+Change: add-report-export
+
+Spec check: PASSED
+
+Size: 450 non-test lines in 1 files
+Bigger than small because: 450 non-test lines changed (threshold 400)
+Linked change: add-report-export (named in the PR body): validates; has Goal, Ticket, Files at Risk and verification.md
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 0

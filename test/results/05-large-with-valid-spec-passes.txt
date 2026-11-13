@@ -1,0 +1,12 @@
+# case: 05-large-with-valid-spec-passes
+# base: main-block   head: pr-large-spec   labels: []
+# PR body: <empty>
+
+Spec check: PASSED
+
+Size: 450 non-test lines in 1 files
+Bigger than small because: 450 non-test lines changed (threshold 400)
+Linked change: add-report-export (in this pull request): validates; has Goal, Ticket, Files at Risk and verification.md
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 0

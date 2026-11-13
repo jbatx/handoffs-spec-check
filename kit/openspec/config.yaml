@@ -1,0 +1,29 @@
+schema: handoffs
+
+# Everything below is guidance for the AI that writes proposals, specs and
+# tasks. OpenSpec injects it into the prompt; it is advisory and enforces
+# nothing. Add or change a line only through a pull request the CTO approves
+# (CODEOWNERS covers this file).
+
+context: |
+  Company goals and their IDs live in openspec/goals.md. Every proposal names
+  one goal by ID. Never invent an ID; ask if none fits.
+  Readiness colors for Files at Risk (team: replace these with your own):
+    green: covered by tests that would catch a break, and has a named owner
+    yellow: partly covered, or the owner is unclear
+    red: no tests that would catch a break, or nobody owns it
+  Write a spec only for changes bigger than small. The thresholds are in
+  .github/spec-check.jsonc. Changes to money, login, permissions or
+  migrations always get one.
+
+rules:
+  proposal:
+    - Take the Goal ID from openspec/goals.md
+    - List every money, login, permission and migration path the change touches under Files at Risk
+  specs:
+    - Name each scenario so a test can cite it word for word
+  verification:
+    - Every scenario gets a row naming a real test file and test name
+    - Money or balance scenarios name a separate calculation that checks the number another way
+  tasks:
+    - Each test named in verification.md gets a task in the group whose work it proves

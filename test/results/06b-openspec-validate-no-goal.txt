@@ -1,0 +1,32 @@
+== same change: openspec validate --strict alone (it does not read the proposal)
+{
+  "items": [
+    {
+      "id": "add-report-export",
+      "type": "change",
+      "valid": true,
+      "issues": [],
+      "durationMs": 27
+    }
+  ],
+  "summary": {
+    "totals": {
+      "items": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "byType": {
+      "change": {
+        "items": 1,
+        "passed": 1,
+        "failed": 0
+      }
+    }
+  },
+  "version": "1.0",
+  "root": {
+    "path": "<kit>/test-repo",
+    "source": "nearest"
+  }
+}
+exit=0

@@ -1,0 +1,15 @@
+# case: 11-money-without-separate-calc-flags
+# base: main   head: pr-money-nocalc   labels: []
+# PR body: <empty>
+
+Spec check: FLAGGED (warn mode, not blocking)
+
+Size: 2 non-test lines in 1 files
+Bigger than small because: touches paths that always need a spec: src/billing/invoice.js
+Linked change: add-report-export (in this pull request): has problems
+
+To fix:
+- add-report-export: This pull request touches money paths; verification.md must name at least one separate calculation
+
+This check confirms the spec exists and is filled in. It does not confirm the spec is right; review does that.
+# exit code: 0
