@@ -19,3 +19,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - uses: ./.github/actions/spec-check
+        # In the pull request that installs the check, add:
+        # with:
+        #   bootstrap: 'true'
+        # and remove it before merging.

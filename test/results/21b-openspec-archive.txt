@@ -1,9 +1,0 @@
-Task status: No tasks
-
-Specs to update:
-  report-export: create
-Applying changes to openspec/specs/report-export/spec.md:
-  + 1 added
-Totals: + 1, ~ 0, - 0, → 0
-Specs updated successfully.
-Change 'add-report-export' archived as '2026-11-13-add-report-export'.

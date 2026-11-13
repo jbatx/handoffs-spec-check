@@ -1,0 +1,9 @@
+{
+  "name": "handoffs-spec-check-openspec",
+  "private": true,
+  "description": "Pins the OpenSpec CLI the spec check runs. Installed with npm ci from the lockfile beside this file.",
+  "license": "MIT",
+  "dependencies": {
+    "@fission-ai/openspec": "2.0.0"
+  }
+}

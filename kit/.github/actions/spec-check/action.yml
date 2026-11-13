@@ -1,12 +1,12 @@
-name: Spec check
-description: Flags a pull request that is bigger than small and has no valid, linked OpenSpec change. Warns by default.
+name: Handoffs spec check
+description: Flags a pull request that is bigger than small and has no valid OpenSpec change in it. Warns by default.
 inputs:
   config:
-    description: Path to the settings file, read from the base branch.
+    description: Path to the settings file. It is read from the base branch.
     default: .github/spec-check.jsonc
-  openspec-version:
-    description: Exact OpenSpec version to run. Keep it pinned.
-    default: 2.0.0
+  bootstrap:
+    description: Set to "true" only in the pull request that installs the check, when the base branch has no settings yet.
+    default: 'false'
   node-version:
     description: Node.js version (OpenSpec 2.x needs 22.12 or newer).
     default: '22'
@@ -16,13 +16,13 @@ runs:
     - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
       with:
         node-version: ${{ inputs.node-version }}
-    - name: Install OpenSpec (pinned, telemetry off)
+        package-manager-cache: false
+    - name: Install OpenSpec from the lockfile (scripts off)
       shell: bash
-      env:
-        OPENSPEC_VERSION: ${{ inputs.openspec-version }}
+      # The version and every dependency are fixed by openspec/package-lock.json.
       run: |
-        npm install --no-save --ignore-scripts --prefix "$RUNNER_TEMP/openspec" "@fission-ai/openspec@${OPENSPEC_VERSION}"
-        echo "OPENSPEC_BIN=$RUNNER_TEMP/openspec/node_modules/.bin/openspec" >> "$GITHUB_ENV"
+        npm ci --ignore-scripts --no-audit --no-fund --prefix "$GITHUB_ACTION_PATH/openspec"
+        echo "OPENSPEC_BIN=$GITHUB_ACTION_PATH/openspec/node_modules/.bin/openspec" >> "$GITHUB_ENV"
     - name: Check the pull request
       shell: bash
       env:
@@ -30,5 +30,6 @@ runs:
         DO_NOT_TRACK: '1'
         OPENSPEC_NO_UPDATE_CHECK: '1'
         SPEC_CHECK_CONFIG: ${{ inputs.config }}
-      # The PR body, labels and commits come from the event file, never from shell interpolation.
+        SPEC_CHECK_BOOTSTRAP: ${{ inputs.bootstrap }}
+      # The PR body, labels and commits are read from the event file, never interpolated into the shell.
       run: node "$GITHUB_ACTION_PATH/spec-check.mjs" --repo "$GITHUB_WORKSPACE"

@@ -1,39 +1,80 @@
-// Spec check settings. The check reads this file from the pull request's
-// BASE branch, so a pull request cannot loosen its own check. Changes here
-// take effect after they merge, through review by the CODEOWNERS (the CTO).
-// Lines starting with // are comments.
+// Handoffs spec check settings.
+// The check reads this file from the pull request's BASE branch, so a pull
+// request cannot loosen its own check. If the base copy will not parse, the
+// check fails until it is fixed. Changes take effect after they merge, through
+// review by the CODEOWNERS (the CTO). Comments and trailing commas are allowed.
+//
+// Path patterns: "**/x/**" matches at any depth, "x/**" and "/x" match from the
+// repository root only, and a pattern with no "/" matches a file name at any
+// depth. Matching ignores case. alwaysNeedsSpec wins over testPaths and
+// ignorePaths. Files under openspec/changes/ and openspec/specs/ are the specs
+// themselves and never count as code.
 {
-  // "warn" flags a pull request and never fails it.
+  // "warn" flags a pull request and never fails it for a missing spec.
   // "block" fails the check, but only once blockingApproval is filled in.
   "mode": "warn",
   "blockingApproval": { "approvedBy": "", "approvedOn": "" },
 
   // A pull request is "bigger than small" when ANY of these is true.
+  // Submodule changes always count as bigger than small.
   "thresholds": {
-    // Lines added + deleted, not counting tests or ignorePaths.
+    // Lines added plus deleted, not counting tests or ignorePaths.
+    // A pull request at or above this number needs a spec.
     "nonTestLinesChanged": 400,
-    // Distinct services (see "services") touched in one pull request.
-    "servicesTouched": 2
+    // Distinct services (see "services") touched, at or above this number.
+    "servicesTouched": 2,
+    // A binary file outside testPaths and ignorePaths larger than this many
+    // bytes (default 1 MB). Common images, fonts, media and PDFs are ignored.
+    "binaryBytes": 1048576
   },
-  // Any non-test change under these paths always needs a spec.
+
+  // Any change under these paths needs a spec, tests included.
   "alwaysNeedsSpec": [
+    // money
     "**/billing/**", "**/payments/**", "**/ledger/**",
-    "**/auth/**", "**/login/**", "**/permissions/**", "**/rbac/**",
-    "**/migrations/**", "**/*.sql"
+    // login and permissions
+    "**/auth/**", "**/authentication/**", "**/authz/**", "**/oauth/**", "**/sso/**",
+    "**/login/**", "**/permissions/**", "**/rbac/**",
+    // data migrations
+    "**/migrations/**", "**/migrate/**", "**/*.sql",
+    // files that change how git treats the code
+    "**/.gitattributes", "/.gitmodules"
   ],
-  // When a pull request touches these, the Verification table must name at
-  // least one separate calculation for the money or balance it changes.
+
+  // Never fail a pull request, but always list it for a reviewer: "agent
+  // instructions changed; code owner should review". These still count
+  // toward size, even when ignorePaths matches them.
+  // Some of these (.mcp.json, .vscode, .devcontainer, .husky) can run
+  // commands on a developer's machine; CODEOWNERS is the real control for them.
+  "alwaysReview": [
+    "CLAUDE.md", "AGENTS.md", "**/.claude/**", "**/.agents/**", "**/.cursor/**",
+    "/.github/copilot-instructions.md", "**/prompts/**",
+    ".mcp.json", "**/.vscode/**", "**/.devcontainer/**", "**/.husky/**"
+  ],
+
+  // When a pull request touches these, verification.md must name at least
+  // one separate calculation for the money or balance it changes.
   "moneyPaths": ["**/billing/**", "**/payments/**", "**/ledger/**"],
-  // Each pattern names service roots; "services/*" makes services/api one service.
+
+  // Each pattern names service roots: "services/*" makes services/api one service.
   "services": ["services/*", "apps/*"],
+
+  // A folder named spec/ counts as tests only at the repository root
+  // (Ruby/RSpec layout); elsewhere only files named like tests do.
   "testPaths": [
-    "**/test/**", "**/tests/**", "**/__tests__/**", "**/spec/**",
-    "**/*.test.*", "**/*.spec.*", "**/*_test.go", "**/test_*.py", "**/*_test.py"
+    "**/test/**", "**/tests/**", "**/__tests__/**", "/spec/**",
+    "*.test.*", "*.spec.*", "*_spec.rb", "*_test.go", "test_*.py", "*_test.py"
   ],
-  // Not counted toward size and never trigger a spec.
+
+  // Not counted toward size. alwaysNeedsSpec still applies to them.
   "ignorePaths": [
-    "openspec/**", "**/package-lock.json", "**/pnpm-lock.yaml", "**/yarn.lock",
-    "**/*.snap", "**/dist/**", "**/vendor/**", "**/*.md"
+    "openspec/**", "docs/**", "dist/**", "vendor/**", "*.md", "/LICENSE",
+    "package-lock.json", "pnpm-lock.yaml", "yarn.lock", "npm-shrinkwrap.json", "bun.lockb",
+    "Cargo.lock", "poetry.lock", "Pipfile.lock", "Gemfile.lock", "go.sum",
+    "composer.lock", "packages.lock.json", "pubspec.lock", "mix.lock",
+    "*.snap",
+    "*.png", "*.jpg", "*.jpeg", "*.gif", "*.svg", "*.ico", "*.webp", "*.pdf",
+    "*.woff", "*.woff2", "*.ttf", "*.otf", "*.mp4", "*.mov", "*.mp3"
   ],
 
   "goals": {
@@ -41,9 +82,16 @@
     "file": "openspec/goals.md",
     "idPattern": "[A-Z][A-Z0-9]*-[0-9]+"
   },
+
   // Optional regular expression the Ticket value must match, e.g. "^[A-Z]+-[0-9]+$".
   "ticketPattern": "",
 
-  // Exemption: the label plus a line in the PR body: "Spec-exempt: <reason>".
-  "exemptLabel": "spec-exempt"
+  // A large pull request can pass by naming an existing active change in its
+  // description ("Change: <name>") without touching it; the summary headline
+  // says so. Set to true to flag that instead.
+  "requireLinkedChangeTouched": false,
+
+  // Exemption: this label plus a line in the PR body "Spec-exempt: <reason>".
+  // Anyone who can add labels can add it; a reviewer must confirm the reason.
+  "exemptLabel": "spec-exempt",
 }

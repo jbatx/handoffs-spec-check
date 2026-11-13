@@ -1,13 +1,14 @@
 {
-  "name": "openspec-handoffs-kit",
+  "name": "handoffs-spec-check",
   "version": "0.1.0",
   "private": true,
-  "description": "OpenSpec add-on: a 'handoffs' schema (goal, ticket, files at risk, verification) and a pull request spec check that warns first.",
+  "description": "Independent add-on for OpenSpec: a 'handoffs' schema (goal, ticket, files at risk, verification) and a pull request spec check that warns first.",
   "license": "MIT",
   "type": "module",
   "engines": { "node": ">=22.12.0" },
   "scripts": {
-    "test": "bash test/run-tests.sh"
+    "test": "bash test/run-tests.sh",
+    "test:unit": "node test/unit.mjs"
   },
   "devDependencies": {
     "@fission-ai/openspec": "2.0.0"
