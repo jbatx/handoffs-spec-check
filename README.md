@@ -123,3 +123,5 @@ When this folder is its own repository, `.github/workflows/self-test.yml` runs t
 Built on [OpenSpec](https://github.com/Fission-AI/OpenSpec) by the OpenSpec Contributors (MIT). The `handoffs` schema is derived from OpenSpec's `spec-driven` schema; its notice is in `kit/openspec/schemas/handoffs/LICENSE-openspec.txt`. This kit is not affiliated with or endorsed by the OpenSpec project.
 
 MIT License. See `LICENSE`.
+
+<!-- smoke test: trivial README edit -->
