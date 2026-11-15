@@ -4,7 +4,6 @@
 
 Please report security problems privately through GitHub's private vulnerability reporting on this repository (Security tab, then "Report a vulnerability"). Do not open a public issue for them. We aim to reply within five working days.
 
-TODO(owner): turn on private vulnerability reporting for the repository before publishing, and confirm the reply time above.
 
 ## Threat model
 
